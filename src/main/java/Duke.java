@@ -1,4 +1,8 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 public class Duke {
 
@@ -8,7 +12,7 @@ public class Duke {
 
     private static void printGreet() {
         printHorizontalLine();
-        System.out.println("Hello! I'm Duke");
+        System.out.println("Hello! I'm Vent");
         System.out.println("What can I do for you?");
     }
 
@@ -23,19 +27,33 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
 
         printGreet();
+        ArrayList<String> list = new ArrayList<String>();
+        String userInput;
 
         while(true) {
-            String userInput;
             Scanner in = new Scanner(System.in);
             userInput = in.nextLine();
-            printHorizontalLine();
-            System.out.println(userInput);
-            printHorizontalLine();
 
-            if (userInput.equals("bye")) break;
+            if (userInput.equals("bye")) {
+                printHorizontalLine();
+                System.out.println("Bye. Hope to see you again soon!");
+                printHorizontalLine();
+                break;
+            } else if (userInput.equals("list")) {
+                printHorizontalLine();
+                for (int i = 0; i < list.size(); i++) {
+                    System.out.println(i+1 + ". " + list.get(i));
+                }
+                printHorizontalLine();
+            } else {
+                list.add(userInput);
+                printHorizontalLine();
+                System.out.println("added: " + userInput);
+                printHorizontalLine();
+            }
         }
 
-        System.out.println("Bye. Hope to see you again soon!");
+
 
     }
 }
