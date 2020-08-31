@@ -9,18 +9,11 @@ public class Duke {
 
     private static void printGreet() {
         printHorizontalLine();
-        System.out.println("Hello! I'm Vent");
+        System.out.println("Hello! I'm Vent.");
         System.out.println("What can I do for you?");
     }
 
     public static void main(String[] args) {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
-
         printGreet();
         ArrayList<Task> list = new ArrayList<>();
         String userInput;
