@@ -25,7 +25,8 @@ public class Duke {
         while(!exitProgram) {
             Scanner in = new Scanner(System.in);
             userInput = in.nextLine().trim();
-            String[] taskCommand = userInput.split(" ", 2);
+            String[] taskCommand = userInput.split(" ", 2); //split
+            //test
 
 //            taskCommand = userInput.substring(0, userInput.indexOf(' '));   // how to resolve if input has no space?
 //            taskDescription = userInput.substring(userInput.indexOf(' ') + 1);
