@@ -6,9 +6,8 @@ public class Duke {
 
     public static void main(String[] args) {
         printGreetings();
-        boolean shouldAbort = false;
 
-        while(!shouldAbort) {
+        while(true) {
             Scanner in = new Scanner(System.in);
             String userInput = in.nextLine().trim();
             String[] taskCommand = userInput.split(" ", 2);
@@ -17,8 +16,8 @@ public class Duke {
             case "bye":
                 String farewellMessage = "Bye. Hope to see you again soon!";
                 textBox(farewellMessage);
-                shouldAbort = true;
-                break;
+                return;
+                // Fallthrough
             case "todo":
                 tasks[ToDo.taskNumber] = new ToDo(taskCommand[1]);
                 ToDo.addTask(tasks[ToDo.taskNumber]);
@@ -41,19 +40,17 @@ public class Duke {
                 System.out.println(horizontalLine);
                 break;
             case "done":
-                int index = Integer.parseInt(taskCommand[1]);
-                tasks[index - 1].markAsDone();
+                int doneIndex = Integer.parseInt(taskCommand[1]);
+                tasks[doneIndex - 1].markAsDone();
                 System.out.println(horizontalLine + "Nice!  I've marked this task as done:");
-                System.out.println("[" + tasks[index - 1].getStatusIcon() + "] " + tasks[index - 1].getDescription() + "\n" + horizontalLine);
+                System.out.println("[" + tasks[doneIndex - 1].getStatusIcon() + "] " + tasks[doneIndex - 1].getDescription() + "\n" + horizontalLine);
                 break;
             default:
                 System.out.println(horizontalLine + "Sorry I don't get your command.\nTips: please use " +
                                     "keywords such as 'todo', 'deadline' or 'event'\n" + horizontalLine);
                 break;
             }
-
         }
-
     }
 
     public static void textBox(String text) {
