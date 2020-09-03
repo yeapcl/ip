@@ -1,6 +1,7 @@
 public class Task {
     protected String description;
     protected boolean isDone;
+    protected static int taskNumber = 0;
 
     public Task(String description) {
         this.description = description;
@@ -17,6 +18,11 @@ public class Task {
 
     public void markAsDone() {
         this.isDone = true;
+    }
+
+    public static void addTask(Task item){
+        Duke.textBox("Got it. I've added this task:\n" + item.toString() + "\nNow you have " + (taskNumber+1) + " tasks in the list.");
+        taskNumber++;
     }
 
     @Override
