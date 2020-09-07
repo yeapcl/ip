@@ -1,21 +1,22 @@
 import java.util.Scanner;
 
 public class Duke {
-    public static Task[] tasks = new Task[100];
-    static String horizontalLine = "____________________________________________________________\n";
+    private static final int MAX_TASKS = 100;
+    private static final String horizontalLine = "____________________________________________________________\n";
+    private static Task[] tasks = new Task[MAX_TASKS];
 
     public static void main(String[] args) throws DukeException {
         printGreetings();
         execute();
     }
 
-    public static void textBox(String text) {
+    public static void makeBorder(String text) {
         System.out.print(horizontalLine + text + System.lineSeparator() + horizontalLine);
     }
 
     private static void printGreetings() {
         String greet = "Hello! I'm Duke, your personal task assistant!\nWhat can I do for you today?";
-        textBox(greet);
+        makeBorder(greet);
     }
 
     public static void execute() throws DukeException {
@@ -28,7 +29,7 @@ public class Duke {
             switch (taskCommand[0]) {
                 case "bye":
                     String farewellMessage = "Bye. Hope to see you again soon!";
-                    textBox(farewellMessage);
+                    makeBorder(farewellMessage);
                     return;
                 // Fallthrough
                 case "todo":
