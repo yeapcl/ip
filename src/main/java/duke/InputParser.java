@@ -1,3 +1,5 @@
+package duke;
+
 public class InputParser {
     protected String input;
     protected String[] strings = new String[2];
