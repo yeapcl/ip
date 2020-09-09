@@ -13,11 +13,9 @@ public class InputParser {
         } else {
             throw new DukeException(DukeException.ExceptionType.EMPTY_DESCRIPTION);
         }
-
     }
 
     public void analyseTaskDescription() {
         strings = input.split("/");
     }
-
 }

@@ -4,7 +4,6 @@ public class Duke {
     private static final int MAX_TASKS = 100;
     public static final String horizontalLine = "____________________________________________________________\n";
     private static final Task[] tasks = new Task[MAX_TASKS];
-//    private static String[] parsedInput = new String[2];
 
     public static void main(String[] args) throws DukeException {
         printGreetings();
@@ -19,12 +18,6 @@ public class Duke {
         String greet = "Hello! I'm Duke, your personal task assistant!\nWhat can I do for you today?";
         makeTextBorder(greet);
     }
-
-//    private static void checkInputValidity (String input) throws DukeException {
-//        if (input == null || input.isEmpty() || input.isBlank() || Integer.parseInt(input) > Task.taskNumber ) {
-//            throw new DukeException();
-//        }
-//    }
 
     private static void execute() throws DukeException {
 
