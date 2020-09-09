@@ -21,7 +21,7 @@ public class Task {
     }
 
     public static void addTask(Task item){
-        Duke.textBox("Got it. I've added this task:\n" + item.toString() + "\nNow you have " + (taskNumber + 1) + " tasks in the list.");
+        Duke.makeTextBorder("Got it. I've added this task:\n" + item.toString() + "\nNow you have " + (taskNumber + 1) + " tasks in the list.");
         taskNumber++;
     }
 
