@@ -10,6 +10,8 @@ public class Task {
     public Task(String description) {
         this.description = description;
         this.isDone = false;
+        Duke.makeTextBorder("Got it. I've added this task:\n" + toString() + "\nNow you have " + (Duke.task.size() + 1) + " tasks in the list.");
+
     }
 
     public String getStatusIcon() {
@@ -31,6 +33,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
+        return "[" + getStatusIcon() + "] " + this.description;
     }
 }
