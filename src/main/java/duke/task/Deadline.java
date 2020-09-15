@@ -7,7 +7,6 @@ public class Deadline extends Task {
     public Deadline(String description, String by) {
         super(description);
         this.by = by;
-        System.out.println("within construct by:" + this.by);
     }
 
     @Override

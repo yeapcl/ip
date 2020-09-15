@@ -18,7 +18,6 @@ public class DukeException extends Exception{
         public String toString() {
             return "\n" + horizontalLine + error + horizontalLine;
         }
-
     }
 
     public DukeException(ExceptionType error) {

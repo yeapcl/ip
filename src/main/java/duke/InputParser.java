@@ -1,12 +1,9 @@
 package duke;
 import java.util.Scanner;
 
-import java.util.ArrayList;
-
 public class InputParser {
     protected String input;
-//    protected String[] strings = new String[2];
-    protected String command, commandDetails, commandDescription, commandDescriptionDetails;
+    protected String command, commandDescription, taskDescription, slashDescription;
 
 
     public InputParser() throws DukeException {
@@ -17,29 +14,26 @@ public class InputParser {
         strings = userInput.split(" ", 2);
         command = strings[0].toLowerCase();
 
-        boolean isATask = userInput.startsWith("todo") || userInput.startsWith("deadline") || userInput.startsWith("event") || userInput.startsWith("done");
+        boolean isSlashExpected = userInput.startsWith("deadline") || userInput.startsWith("event");
+        boolean isSingleWordCommand = userInput.startsWith("bye") || userInput.startsWith("list");
 
-        if (!isATask) {
-            command = userInput;
+        if (isSlashExpected) {
+            strings = userInput.split(" ", 2);
+            strings = strings[1].split("/");
+            taskDescription = strings[0];
+            slashDescription = strings[1].substring(3);
         } else if (userInput.contains(" ")) {
             strings = userInput.split(" ", 2);
-            commandDetails = strings[1];
-            System.out.println("string[0]: " + strings[0] + "; string[1]: " + strings[1]);
-            strings = strings[1].split("/");
-            commandDescription = strings[0];
-            commandDescriptionDetails = strings[1].substring(3);
-            System.out.println("commandDescriptionDetails here is:" + commandDescriptionDetails);
+            commandDescription = strings[1];
+        } else if (isSingleWordCommand) {
+            command = userInput;
         } else {
             throw new DukeException(DukeException.ExceptionType.EMPTY_DESCRIPTION);
         }
     }
 
-//    public void analyseTaskDescription() {
-//        strings = input.split("/");
-//    }
-
-    private void checkCommandValidity(String description) throws DukeException {
-        if (description == null || description.isEmpty() || description.isBlank()) {
+    private void checkCommandValidity(String string) throws DukeException {
+        if (string == null || string.isEmpty() || string.isBlank()) {
             throw new DukeException(DukeException.ExceptionType.EMPTY_DESCRIPTION);
         }
     }

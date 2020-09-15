@@ -1,5 +1,4 @@
 package duke.task;
-
 import duke.Duke;
 
 public class Task {
@@ -10,8 +9,6 @@ public class Task {
     public Task(String description) {
         this.description = description;
         this.isDone = false;
-        Duke.makeTextBorder("Got it. I've added this task:\n" + toString() + "\nNow you have " + (Duke.task.size() + 1) + " tasks in the list.");
-
     }
 
     public String getStatusIcon() {
@@ -26,7 +23,7 @@ public class Task {
         this.isDone = true;
     }
 
-    public static void addTask(Task item){
+    public static void getTaskTracker(Task item) {
         Duke.makeTextBorder("Got it. I've added this task:\n" + item.toString() + "\nNow you have " + (taskNumber + 1) + " tasks in the list.");
         taskNumber++;
     }
