@@ -1,31 +1,29 @@
 package duke;
 
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.ToDo;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
+import java.io.FileWriter;
 
 public class FileIO {
 
+    protected static ArrayList<String> list = new ArrayList<String>();
+    protected static String taskType, isDoneString, taskDescription;
+    protected static boolean isDone;
+    protected static String[] taskDescriptionDetails;
+
     public FileIO() throws DukeException {
         try {
-//            printFileContents();
             readFileContents();
         } catch (FileNotFoundException e) {
-//            System.out.println("File not found");
             throw new DukeException(DukeException.ExceptionType.FILE_NOT_FOUND);
         }
     }
-
-
-//    private static void writeToFile(String filePath, String textToAdd) throws IOException {
-//        FileWriter fw = new FileWriter(filePath);
-//        fw.write(textToAdd);
-//        fw.close();
-//    }
 
     private static void printFileContents() throws FileNotFoundException {
         File f = new File("data/duke.txt"); // create a File for the given file path
@@ -37,25 +35,38 @@ public class FileIO {
 
     private static void readFileContents() throws FileNotFoundException {
         File f = new File("data/duke.txt"); // create a File for the given file path
-        ArrayList<String> list = new ArrayList<String>();
         Scanner s = new Scanner(f); // create a Scanner using the File as the source
         while (s.hasNextLine()) {
             list.add(s.nextLine());
         }
-//        System.out.println(Arrays.toString(list.toArray()));
-
-//        for (String list : kk) {
-//            System.out.println(list.getName());
-//        }
-
-        System.out.println(list);
-        System.out.println(list.toString());
-        list.forEach(System.out::println);
-
-
+        parseFromFile();
     }
 
+    private static void parseFromFile() {
+        System.out.println("Loading from file...");
 
+        for (String arr : list) {
+            taskType = arr.substring(0,1);
+            isDoneString = arr.substring(4, 5);
+            isDone = isDoneString.equals("1");
+            taskDescription = arr.substring(8);
 
-
+            switch (taskType) {
+            case "T":
+                Duke.tasks[ToDo.taskNumber] = new ToDo(taskDescription, isDone);
+                ToDo.addTask(Duke.tasks[ToDo.taskNumber]);
+                break;
+            case "D":
+                taskDescriptionDetails = taskDescription.split("\\|",2);
+                Duke.tasks[Deadline.taskNumber] = new Deadline(taskDescriptionDetails[0].trim(), taskDescriptionDetails[1].trim());
+                Deadline.addTask(Duke.tasks[Deadline.taskNumber]);
+                break;
+            case "E":
+                taskDescriptionDetails = taskDescription.split("\\|",2);
+                Duke.tasks[Event.taskNumber] = new Event(taskDescriptionDetails[0].trim(), taskDescriptionDetails[1].trim());
+                Event.addTask(Duke.tasks[Event.taskNumber]);
+                break;
+            }
+        }
+    }
 }

@@ -4,21 +4,17 @@ import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
 import duke.task.ToDo;
-
-
 import java.util.Scanner;
 
 public class Duke {
     private static final int MAX_TASKS = 100;
     public static final String horizontalLine = "____________________________________________________________\n";
-    private static final Task[] tasks = new Task[MAX_TASKS];
+    public static final Task[] tasks = new Task[MAX_TASKS];
 
     public static void main(String[] args) throws DukeException {
-        FileIO io = new FileIO();
         printGreetings();
         execute();
     }
-
 
     public static void makeTextBorder(String text) {
         System.out.print(horizontalLine + text + System.lineSeparator() + horizontalLine);
@@ -30,6 +26,7 @@ public class Duke {
     }
 
     private static void execute() throws DukeException {
+        FileIO io = new FileIO();
 
         while(true) {
             Scanner in = new Scanner(System.in);
@@ -42,7 +39,7 @@ public class Duke {
                     makeTextBorder(farewellMessage);
                     return;
                 // Fallthrough
-                case "todo":
+            case "todo":
                     tasks[ToDo.taskNumber] = new ToDo(taskCommand.strings[1]);
                     ToDo.addTask(tasks[ToDo.taskNumber]);
                     break;
@@ -62,7 +59,6 @@ public class Duke {
                         System.out.println((i + 1) + "." + tasks[i]);
                     }
                     System.out.println(horizontalLine);
-
                     break;
                 case "done":
                     int doneIndex = Integer.parseInt(taskCommand.strings[1]);
@@ -76,8 +72,6 @@ public class Duke {
 
         }
     }
-
-
 }
 
 
