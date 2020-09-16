@@ -5,6 +5,7 @@ import duke.task.Event;
 import duke.task.Task;
 import duke.task.ToDo;
 
+
 import java.util.Scanner;
 
 public class Duke {
@@ -13,9 +14,11 @@ public class Duke {
     private static final Task[] tasks = new Task[MAX_TASKS];
 
     public static void main(String[] args) throws DukeException {
+        FileIO io = new FileIO();
         printGreetings();
         execute();
     }
+
 
     public static void makeTextBorder(String text) {
         System.out.print(horizontalLine + text + System.lineSeparator() + horizontalLine);
