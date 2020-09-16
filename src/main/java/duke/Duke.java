@@ -7,10 +7,18 @@ import duke.task.ToDo;
 
 import java.util.ArrayList;
 
+import java.util.Scanner;
+
+
 public class Duke {
     public static final String horizontalLine = "____________________________________________________________\n";
+    public static final ArrayList<Task> tasks = new ArrayList<Task>();
+
+//    public static final Task[] tasks = new Task[MAX_TASKS];
+
 
     public static void main(String[] args) throws DukeException {
+
         printGreetings();
         execute();
     }
@@ -25,7 +33,8 @@ public class Duke {
     }
 
     private static void execute() throws DukeException {
-        ArrayList<Task> tasks = new ArrayList<Task>();
+//        ArrayList<Task> tasks = new ArrayList<Task>();
+        FileIO io = new FileIO();
 
         while (true) {
             InputParser parsedInput = new InputParser();
@@ -88,8 +97,6 @@ public class Duke {
 
         }
     }
-
-
 }
 
 

@@ -5,7 +5,8 @@ public class DukeException extends Exception{
     protected enum ExceptionType {
         INVALID_INPUT("\u2639 OOPS!!! I'm sorry, but I don't know what that means :-(\n"),
         EMPTY_DESCRIPTION("\u2639 OOPS!!! The description of a task cannot be empty.\n"),
-        INDEX_OUT_OF_BOUND("\u2639 OOPS!!! No such task is found!\n");
+        INDEX_OUT_OF_BOUND("\u2639 OOPS!!! No such task is found!\n"),
+        FILE_NOT_FOUND("The file is not found!\n");
 
         private String error;
         private String horizontalLine = "____________________________________________________________\n";
