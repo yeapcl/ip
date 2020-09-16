@@ -5,12 +5,10 @@ import duke.task.Event;
 import duke.task.Task;
 import duke.task.ToDo;
 
-import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Duke {
-    private static final int MAX_TASKS = 100;
     public static final String horizontalLine = "____________________________________________________________\n";
-    private static final Task[] tasks = new Task[MAX_TASKS];
 
     public static void main(String[] args) throws DukeException {
         printGreetings();
@@ -27,48 +25,65 @@ public class Duke {
     }
 
     private static void execute() throws DukeException {
+        ArrayList<Task> tasks = new ArrayList<Task>();
 
-        while(true) {
-            Scanner in = new Scanner(System.in);
-            String userInput = in.nextLine().trim();
-            InputParser taskCommand = new InputParser(userInput);
+        while (true) {
+            InputParser parsedInput = new InputParser();
 
-            switch (taskCommand.strings[0]) {
+            try {
+                switch (parsedInput.command) {
                 case "bye":
                     String farewellMessage = "Bye. Hope to see you again soon!";
                     makeTextBorder(farewellMessage);
                     return;
-                // Fallthrough
+                    // Fallthrough
                 case "todo":
-                    tasks[ToDo.taskNumber] = new ToDo(taskCommand.strings[1]);
-                    ToDo.addTask(tasks[ToDo.taskNumber]);
+                    tasks.add(new ToDo(parsedInput.commandDescription));
+                    Task.getTaskTracker(tasks.get(Task.taskNumber));
                     break;
                 case "deadline":
-                    taskCommand.analyseTaskDescription();
-                    tasks[Deadline.taskNumber] = new Deadline(taskCommand.strings[0], taskCommand.strings[1].substring(3));
-                    Deadline.addTask(tasks[Deadline.taskNumber]);
+                    tasks.add(new Deadline(parsedInput.taskDescription, parsedInput.slashDescription));
+                    Deadline.getTaskTracker(tasks.get(Deadline.taskNumber));
                     break;
                 case "event":
-                    taskCommand.analyseTaskDescription();
-                    tasks[Event.taskNumber] = new Event(taskCommand.strings[0], taskCommand.strings[1].substring(3));
-                    Event.addTask((tasks[Event.taskNumber]));
+                    tasks.add(new Event(parsedInput.taskDescription, parsedInput.slashDescription));
+                    Event.getTaskTracker(tasks.get(Event.taskNumber));
                     break;
                 case "list":
                     System.out.println(horizontalLine + "Here are the tasks in your list: ");
-                    for (int i = 0; i < Task.taskNumber; i++) {
-                        System.out.println((i + 1) + "." + tasks[i]);
+                    int i = 1;
+                    for (Task str : tasks) {
+                        System.out.println(i + "." + str);
+                        i++;
                     }
                     System.out.println(horizontalLine);
-
                     break;
                 case "done":
-                    int doneIndex = Integer.parseInt(taskCommand.strings[1]);
-                    tasks[doneIndex - 1].markAsDone();
-                    System.out.println(horizontalLine + "Nice!  I've marked this task as done:");
-                    System.out.println("[" + tasks[doneIndex - 1].getStatusIcon() + "] " + tasks[doneIndex - 1].getDescription() + "\n" + horizontalLine);
+                    int doneIndex = Integer.parseInt(parsedInput.commandDescription);
+                    if (doneIndex > tasks.size() || doneIndex < 0) {
+                        throw new DukeException(DukeException.ExceptionType.INDEX_OUT_OF_BOUND);
+                    } else {
+                        tasks.get(doneIndex - 1).markAsDone();
+                    }
+                    System.out.println(horizontalLine + "Nice! I've marked this task as done:");
+                    System.out.println("[" + tasks.get(doneIndex - 1).getStatusIcon() + "] " + tasks.get(doneIndex - 1).getDescription() + "\n" + horizontalLine);
+                    break;
+                case "delete":
+                    int deleteIndex = Integer.parseInt(parsedInput.commandDescription) - 1;
+                    if (deleteIndex > tasks.size() || deleteIndex < 0) {
+                        throw new DukeException(DukeException.ExceptionType.INDEX_OUT_OF_BOUND);
+                    } else {
+                        System.out.println(horizontalLine + "Noted. I have removed this task:\n" + tasks.get(deleteIndex) + "\n");
+                        tasks.remove(deleteIndex);
+                        Task.taskNumber--;
+                        System.out.println("Now you have " + tasks.size() + " tasks in the list." + horizontalLine);
+                    }
                     break;
                 default:
                     throw new DukeException(DukeException.ExceptionType.INVALID_INPUT);
+                }
+            } catch (ArrayIndexOutOfBoundsException exception) {
+                throw new DukeException(DukeException.ExceptionType.INDEX_OUT_OF_BOUND);
             }
 
         }
