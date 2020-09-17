@@ -5,9 +5,8 @@ public class InputParser {
     protected String input;
     protected String command, commandDescription, taskDescription, slashDescription;
 
-
     public InputParser() throws DukeException {
-        String[] strings = new String[2];
+        String[] strings;
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine().trim();
         checkCommandValidity(userInput);

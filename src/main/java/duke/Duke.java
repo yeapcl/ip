@@ -14,8 +14,8 @@ public class Duke {
 
     public static void main(String[] args) throws DukeException {
         printGreetings();
-        FileIO io = new FileIO();
         execute();
+
     }
 
     public static void makeTextBorder(String text) {
@@ -28,6 +28,7 @@ public class Duke {
     }
 
     private static void execute() throws DukeException {
+        FileIO io = new FileIO();
 
         while (true) {
             InputParser parsedInput = new InputParser();
@@ -36,6 +37,7 @@ public class Duke {
                 case "bye":
                     String farewellMessage = "Bye. Hope to see you again soon!";
                     makeTextBorder(farewellMessage);
+                    FileIO.saveTasksList();
                     return;
                     // Fallthrough
                 case "todo":
@@ -43,11 +45,11 @@ public class Duke {
                     Task.getTaskTracker(tasks.get(Task.taskNumber));
                     break;
                 case "deadline":
-                    tasks.add(new Deadline(parsedInput.taskDescription, parsedInput.slashDescription));
+                    tasks.add(new Deadline(parsedInput.taskDescription.trim(), parsedInput.slashDescription.trim()));
                     Deadline.getTaskTracker(tasks.get(Deadline.taskNumber));
                     break;
                 case "event":
-                    tasks.add(new Event(parsedInput.taskDescription, parsedInput.slashDescription));
+                    tasks.add(new Event(parsedInput.taskDescription.trim(), parsedInput.slashDescription.trim()));
                     Event.getTaskTracker(tasks.get(Event.taskNumber));
                     break;
                 case "list":
@@ -77,7 +79,7 @@ public class Duke {
                         System.out.println(horizontalLine + "Noted. I have removed this task:\n" + tasks.get(deleteIndex) + "\n");
                         tasks.remove(deleteIndex);
                         Task.taskNumber--;
-                        System.out.println("Now you have " + tasks.size() + " tasks in the list." + horizontalLine);
+                        System.out.println("Now you have " + tasks.size() + " tasks in the list.\n" + horizontalLine);
                     }
                     break;
                 default:

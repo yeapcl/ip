@@ -6,8 +6,8 @@ public class DukeException extends Exception{
         INVALID_INPUT("\u2639 OOPS!!! I'm sorry, but I don't know what that means :-(\n"),
         EMPTY_DESCRIPTION("\u2639 OOPS!!! The description of a task cannot be empty.\n"),
         INDEX_OUT_OF_BOUND("\u2639 OOPS!!! No such task is found!\n"),
-        FILE_NOT_FOUND("The file is not found!\n"),
-        CANNOT_CREATE_DIRECTORIES("Directory or file cannot be created");
+        FILE_NOT_FOUND("duke.txt not found in data/duke.txt, please check again!\n"),
+        FOLDER_NOT_FOUND("The folder ./data/ is not found, please check again!\n");
 
         private String error;
         private String horizontalLine = "____________________________________________________________\n";

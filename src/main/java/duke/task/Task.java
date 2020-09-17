@@ -33,6 +33,10 @@ public class Task {
         taskNumber++;
     }
 
+    public static void getTaskTracker(Task item, boolean isFromFile) {
+        taskNumber++;
+    }
+
     @Override
     public String toString() {
         return "[" + getStatusIcon() + "] " + this.description;
