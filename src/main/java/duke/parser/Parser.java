@@ -10,6 +10,7 @@ public class Parser {
     private static final String COMMAND_LIST = "list";
     private static final String COMMAND_DONE = "done";
     private static final String COMMAND_DELETE = "delete";
+    private static final String COMMAND_FIND = "find";
     private static final String COMMAND_BYE = "bye";
 
     public static Command parse(String input) throws DukeException {
@@ -32,6 +33,9 @@ public class Parser {
         case COMMAND_DELETE:
             checkTaskIndexValidity(parsedInputs);
             return new DeleteCommand(parsedInputs[1]);
+        case COMMAND_FIND:
+            verifyFind(parsedInputs);
+            return new FindCommand(parsedInputs[1]);
         case COMMAND_BYE:
             return new ByeCommand();
         default:
@@ -80,6 +84,12 @@ public class Parser {
             throw new DukeException("There is no description in your event command!");
         } else if (input[1].substring(atPosition + 3).isBlank()) {
             throw new DukeException("An event task requires an '/at' to indicate location!");
+        }
+    }
+
+    private static void verifyFind(String[] input) throws DukeException {
+        if (input.length < 2) {
+            throw new DukeException("Search description is empty");
         }
     }
 
