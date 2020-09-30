@@ -2,17 +2,16 @@ package duke.task;
 
 public class Deadline extends Task {
 
-    protected String by;
+    public String by;
 
-    public Deadline(String description, String by) {
+    public Deadline(String description, String by){
         super(description);
         this.by = by;
+        setTaskType("D");
     }
 
-    public Deadline(String description, String by, boolean isDone) {
-        super(description);
-        this.by = by;
-        this.isDone = isDone;
+    public String getBy() {
+        return by;
     }
 
     @Override

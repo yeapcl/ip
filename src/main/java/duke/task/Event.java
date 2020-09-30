@@ -4,15 +4,14 @@ public class Event extends Task {
 
     protected String at;
 
-    public Event(String description, String at) {
+    public Event(String description, String at){
         super(description);
         this.at = at;
+        setTaskType("E");
     }
 
-    public Event(String description, String at, boolean isDone) {
-        super(description);
-        this.at = at;
-        this.isDone = isDone;
+    public String getAt() {
+        return at;
     }
 
     @Override

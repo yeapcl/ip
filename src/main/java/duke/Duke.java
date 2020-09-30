@@ -1,96 +1,47 @@
 package duke;
 
-import duke.task.Deadline;
-import duke.task.Event;
-import duke.task.Task;
-import duke.task.ToDo;
-
-import java.util.ArrayList;
-
+import duke.exception.DukeException;
+import duke.parser.Parser;
+import duke.storage.Storage;
+import duke.task.TaskList;
+import duke.command.Command;
+import duke.ui.Ui;
 
 public class Duke {
-    public static final String horizontalLine = "____________________________________________________________\n";
-    public static final ArrayList<Task> tasks = new ArrayList<Task>();
+    private Storage storage;
+    private TaskList tasks;
+    private final Ui ui;
 
-    public static void main(String[] args) throws DukeException {
-        printGreetings();
-        execute();
-
-    }
-
-    public static void makeTextBorder(String text) {
-        System.out.print(horizontalLine + text + System.lineSeparator() + horizontalLine);
-    }
-
-    private static void printGreetings() {
-        String greet = "Hello! I'm Duke, your personal task assistant!\nWhat can I do for you today?";
-        makeTextBorder(greet);
-    }
-
-    private static void execute() throws DukeException {
-        FileIO io = new FileIO();
-
-        while (true) {
-            InputParser parsedInput = new InputParser();
-            try {
-                switch (parsedInput.command) {
-                case "bye":
-                    String farewellMessage = "Bye. Hope to see you again soon!";
-                    makeTextBorder(farewellMessage);
-                    FileIO.saveTasksList();
-                    return;
-                    // Fallthrough
-                case "todo":
-                    tasks.add(new ToDo(parsedInput.commandDescription));
-                    Task.getTaskTracker(tasks.get(Task.taskNumber));
-                    break;
-                case "deadline":
-                    tasks.add(new Deadline(parsedInput.taskDescription.trim(), parsedInput.slashDescription.trim()));
-                    Deadline.getTaskTracker(tasks.get(Deadline.taskNumber));
-                    break;
-                case "event":
-                    tasks.add(new Event(parsedInput.taskDescription.trim(), parsedInput.slashDescription.trim()));
-                    Event.getTaskTracker(tasks.get(Event.taskNumber));
-                    break;
-                case "list":
-                    System.out.println(horizontalLine + "Here are the tasks in your list: ");
-                    int i = 1;
-                    for (Task str : tasks) {
-                        System.out.println(i + "." + str);
-                        i++;
-                    }
-                    System.out.println(horizontalLine);
-                    break;
-                case "done":
-                    int doneIndex = Integer.parseInt(parsedInput.commandDescription);
-                    if (doneIndex > tasks.size() || doneIndex < 0) {
-                        throw new DukeException(DukeException.ExceptionType.INDEX_OUT_OF_BOUND);
-                    } else {
-                        tasks.get(doneIndex - 1).markAsDone();
-                    }
-                    System.out.println(horizontalLine + "Nice! I've marked this task as done:");
-                    System.out.println("[" + tasks.get(doneIndex - 1).getStatusIcon() + "] " + tasks.get(doneIndex - 1).getDescription() + "\n" + horizontalLine);
-                    break;
-                case "delete":
-                    int deleteIndex = Integer.parseInt(parsedInput.commandDescription) - 1;
-                    if (deleteIndex > tasks.size() || deleteIndex < 0) {
-                        throw new DukeException(DukeException.ExceptionType.INDEX_OUT_OF_BOUND);
-                    } else {
-                        System.out.println(horizontalLine + "Noted. I have removed this task:\n" + tasks.get(deleteIndex) + "\n");
-                        tasks.remove(deleteIndex);
-                        Task.taskNumber--;
-                        System.out.println("Now you have " + tasks.size() + " tasks in the list.\n" + horizontalLine);
-                    }
-                    break;
-                default:
-                    throw new DukeException(DukeException.ExceptionType.INVALID_INPUT);
-                }
-            } catch (ArrayIndexOutOfBoundsException exception) {
-                throw new DukeException(DukeException.ExceptionType.INDEX_OUT_OF_BOUND);
-            }
-
+    public Duke(String filePath) {
+        ui = new Ui();
+        try {
+            storage = new Storage(filePath);
+            tasks = new TaskList(storage.load());
+        } catch (DukeException e) {
+            ui.showError(e.getMessage());
+            tasks = new TaskList();
         }
     }
+
+    public void run() {
+        ui.showWelcome();
+        boolean isExit = false;
+        while (!isExit) {
+            try {
+                String fullCommand = ui.readCommand();
+                ui.showLine(); // show the divider line ("_______")
+                Command c = Parser.parse(fullCommand);
+                c.execute(tasks, ui, storage);
+                isExit = c.isExit();
+            } catch (DukeException e) {
+                ui.showError(e.getMessage());
+            } finally {
+                ui.showLine();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new Duke("data/duke.txt").run();
+    }
 }
-
-
