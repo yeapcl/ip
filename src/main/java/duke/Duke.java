@@ -12,6 +12,13 @@ public class Duke {
     private TaskList tasks;
     private final Ui ui;
 
+
+    /**
+     * Creates a new Duke object based on the given file path. Duke will load/write from/to
+     * the text file in the specified path.
+     *
+     * @param filePath relative location of the folder and text file.
+     */
     public Duke(String filePath) {
         ui = new Ui();
         try {
@@ -23,6 +30,9 @@ public class Duke {
         }
     }
 
+    /**
+     * run Duke task assistant until it terminates
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
