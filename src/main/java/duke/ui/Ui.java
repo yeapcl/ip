@@ -30,7 +30,6 @@ public class Ui {
                 System.out.println(i + ". " + t);
                 i++;
             }
-
         } else {
             System.out.println("There is no task in the list! Consider adding one?");
         }
@@ -58,6 +57,19 @@ public class Ui {
     public void printDelete(TaskList taskList, Task task) {
         System.out.println("Noted. I have removed this task:\n" + task);
         System.out.println("Now you have " + taskList.getTotalTaskCount() + " tasks in this list.");
+    }
+
+    public void printFind(TaskList taskList, String key) {
+        if (taskList.getTotalTaskCount() > 0) {
+            System.out.println("Thwis are the tasks that match \"" + key + "\":");
+            int i = 1;
+            for (Task t : taskList.getTaskList()) {
+                System.out.println(i + ". " + t);
+                i++;
+            }
+        } else {
+            System.out.println("Thwere is no task that matches \"" + key + "\".");
+        }
     }
 
     public void showBye() {
