@@ -63,7 +63,7 @@ Example:
 
 Adds an event task to Duke.
 
-Format: `event DESCRIPTION /at DATE TIME`
+Format: `event DESCRIPTION_1 /at DESCRIPTION_2`
 
 - the keyword `/at` must be specified followed by `DESCRIPTION_2`
 - both `DESCRIPTION_1` and `DESCRIPTION_2` should not be an empty field
@@ -128,8 +128,8 @@ Action | Format | Examples
 todo | `todo DESCRIPTION` | `todo read book`
 deadline | `deadline DESCRIPTION_1 /by DESCRIPTION_2` | `deadline return book /by June 6th`
 event | `event DESCRIPTION_1 /at DESCRIPTION_2` | `event project meeting /at Aug 6th 2-4pm at NUS`
-list | `list`
+list | `list` | `list`
 find | `find KEYWORD` | `find book`
 done | `done INDEX` | `done 1`
 delete | `delete INDEX` | `delete 1`
-bye | `bye`
+bye | `bye` | `bye`
