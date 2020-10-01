@@ -9,12 +9,13 @@ import duke.task.ToDo;
 import java.util.Scanner;
 
 /**
- * Make sense of user's inputs and print relevant messages to the user.
+ * This class Ui makes sense of user's inputs and print relevant messages to the user.
  */
 public class Ui {
     private static final String MESSAGE_LINE = "____________________________________________________________";
-    private static final String MESSAGE_GREETINGS = "\nHello! I'm Duke, your personal task assistant!\n" +
-            "What can I do for you today?\n";
+    private static final String MESSAGE_GREETINGS = "\nHello! I'm Duke, your personal task assistant!\n"
+            + "What can I do for you today?\n";
+
     private final Scanner scanner = new Scanner(System.in);
 
     /**
