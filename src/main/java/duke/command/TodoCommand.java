@@ -6,6 +6,9 @@ import duke.task.TaskList;
 import duke.task.ToDo;
 import duke.ui.Ui;
 
+/**
+ * Adds a todo to the task list.
+ */
 public class TodoCommand extends Command {
 
     public TodoCommand(String input) {

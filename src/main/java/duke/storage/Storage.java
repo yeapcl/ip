@@ -1,7 +1,12 @@
 package duke.storage;
 
 import duke.exception.DukeException;
-import duke.task.*;
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.Task;
+import duke.task.TaskList;
+import duke.task.ToDo;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,15 +15,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Manages the loading and saving of data to or from a text file.
+ */
 public class Storage {
+    private static final String MESSAGE_TICK_SYMBOL = "\u2713";
     private final String FILE_PATH;
     public static final int MAX_SIZE = 100;
 
+    /**
+     * Creates a new file if it does not exist.
+     *
+     * @throws DukeException if an I/O error has occurred.
+     */
     public Storage(String FILE_PATH) throws DukeException {
         this.FILE_PATH = FILE_PATH;
         initialise();
     }
 
+    /**
+     * Initialises a file by checking path validity.
+     *
+     * @throws DukeException if an I/O error has occurred.
+     */
     private void initialise() throws DukeException {
         File storageFile = new File(FILE_PATH);
         File storageFolder = new File(storageFile.getParent());
@@ -43,6 +62,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads data from the text file to task arraylist.
+     *
+     * @throws DukeException if an I/O error has occurred.
+     */
     public ArrayList<Task> load() throws DukeException {
         Scanner reader;
         try {
@@ -57,6 +81,13 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Parses the saved tasks according to specified format in order to be loaded.
+     *
+     * @param reader reads user's string input.
+     * @param storageTasks the task arraylist.
+     * @throws DukeException if an I/O error has occurred.
+     */
     private void loadTask(Scanner reader, ArrayList<Task> storageTasks) throws DukeException {
         Task task;
         String[] parsedLines = reader.nextLine().split("\\|");
@@ -76,12 +107,18 @@ public class Storage {
         default:
             throw new DukeException("Existing task list format is corrupted. Please check again.");
         }
-        if (parsedLines[1].equals("\u2713")) {
+        if (parsedLines[1].equals(MESSAGE_TICK_SYMBOL)) {  //
             task.markAsDone();
         }
         storageTasks.add(task);
     }
 
+    /**
+     * Writes data to the text file.
+     *
+     * @tasks Arraylist of task.
+     * @throws DukeException if an I/O error has occurred.
+     */
     public void write(TaskList taskList) throws DukeException {
         ArrayList<Task> tasks = taskList.getTaskList();
         try {
@@ -93,16 +130,20 @@ public class Storage {
         }
     }
 
-    private void writeTask(FileWriter fw, ArrayList<Task> tasks) throws IOException {
+    /**
+     * Writes specific task details to the text file in given format.
+     *
+     * @param fw FileWriter object.
+     * @tasks Arraylist of task.
+     * @throws IOException if an I/O error has occurred.
+     */
+    private void writeTask(FileWriter fw, ArrayList<Task> tasks) throws IOException, DukeException {
         for (Task t : tasks) {
             fw.write(t.getTaskType() + " | " + t.getStatusIcon() + " | " + t.getDescription());
-            switch (t.getTaskType()) {
-            case "D":
+            if (t.getTaskType().equals("D")) {
                 fw.write(" | " + ((Deadline) t).getBy());
-                break;
-            case "E":
+            } else if (t.getTaskType().equals("E")) {
                 fw.write(" | " + ((Event) t).getAt());
-                break;
             }
             fw.append("\n");
         }

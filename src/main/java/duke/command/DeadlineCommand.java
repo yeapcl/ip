@@ -6,6 +6,9 @@ import duke.task.Deadline;
 import duke.task.TaskList;
 import duke.ui.Ui;
 
+/**
+ * Adds a deadline to the task list.
+ */
 public class DeadlineCommand extends Command {
 
     public DeadlineCommand(String input) {

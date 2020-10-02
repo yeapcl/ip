@@ -1,11 +1,13 @@
 package duke.command;
 
-import duke.exception.DukeException;
 import duke.storage.Storage;
 import duke.task.Task;
 import duke.task.TaskList;
 import duke.ui.Ui;
 
+/**
+ * Finds task(s) in task list that matches the keyword.
+ */
 public class FindCommand extends Command {
 
     public FindCommand(String keyword) {

@@ -6,6 +6,9 @@ import duke.task.Event;
 import duke.task.TaskList;
 import duke.ui.Ui;
 
+/**
+ * Adds an event to the task list.
+ */
 public class EventCommand extends Command {
 
     public EventCommand(String input) {
